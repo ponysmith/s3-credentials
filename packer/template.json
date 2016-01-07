@@ -1,0 +1,36 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sleep 30",
+        "sudo apt-add-repository ppa:ansible/ansible",
+        "sudo apt-get update",
+        "sudo apt-get install -y ansible"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/aws-packer.yml",
+      "playbook_dir": "ansible",
+      "staging_directory": "/home/ubuntu/ansible",
+      "inventory_file": "ansible/inventory/aws/hosts"
+    }
+  ],
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{ user `aws_access_key` }}",
+      "secret_key": "{{ user `aws_secret_key` }}",
+      "region": "us-east-1",
+      "source_ami": "ami-d05e75b8",
+      "instance_type": "t2.micro",
+      "ssh_username": "ubuntu",
+      "ami_name": "s3-credentials {{ timestamp }}"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  become: yes
+  become_method: sudo
+  roles: 
+    - aws-cli
+    # Other ansible tasks as needed for your setup

@@ -1,0 +1,13 @@
+---
+
+# Import the variables file
+# This file will be pulled down from S3 during the cloud-init startup
+- include_vars: /home/ubuntu/db-credentials.yml
+
+
+# Create the database.yml file
+- name: Create database.yml
+  template: 
+    src: database.yml.j2
+    dest: /home/ubuntu/database.yml
+
